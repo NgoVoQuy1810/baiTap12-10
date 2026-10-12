@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -8,21 +9,20 @@
     android:padding="20dp"
     tools:context=".MainActivity">
 
-    <!-- Thông tin sinh viên -->
     <TextView
         android:id="@+id/tvThongTinSV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Họ tên: Ngô Võ Quý \n Mssv: 2415053122236 \n Lớp HP: 126TLTTD01"
-        android:textSize="16sp"
+        android:text="Họ tên: Nguyễn Văn A\nMSV: 20210001\nLớp HP: Lập trình Di động"
+        android:textSize="15sp"
         android:textStyle="bold"
+        android:textColor="#1976D2"
         android:padding="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#E3F2FD"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Tiêu đề chức năng -->
     <TextView
         android:id="@+id/tvTieuDe"
         android:layout_width="wrap_content"
@@ -35,20 +35,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Nhập tên công việc -->
     <EditText
         android:id="@+id/edtTenCV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:layout_marginTop="16dp"
         android:hint="Nhập tên công việc"
         android:inputType="textCapSentences"
         android:minHeight="48dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvTieuDe"
+        app:layout_constraintTop_toBottomOf="@id/tvTieuDe"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- NHập mô tả công việc -->
     <EditText
         android:id="@+id/edtMoTaCV"
         android:layout_width="0dp"
@@ -62,7 +60,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Nút tạo công việc -->
     <Button
         android:id="@+id/btnTaoCV"
         android:layout_width="0dp"
@@ -73,7 +70,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Nút xem danh sách công việc -->
     <Button
         android:id="@+id/btnXemDS"
         style="?attr/materialButtonOutlinedStyle"
@@ -84,4 +80,5 @@
         app:layout_constraintTop_toBottomOf="@id/btnTaoCV"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

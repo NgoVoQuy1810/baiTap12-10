@@ -6,12 +6,19 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class ChinhSuaCongViecActivity : AppCompatActivity() {
 
     private lateinit var edtSuaTenCV: EditText
     private lateinit var edtSuaMoTaCV: EditText
+    private lateinit var rgMucDoUuTien: RadioGroup
+    private lateinit var rbThap: RadioButton
+    private lateinit var rbTrungBinh: RadioButton
+    private lateinit var rbCao: RadioButton
     private lateinit var btnLuuCV: Button
     private var congViecCanSua: CongViec? = null
 
@@ -27,6 +34,10 @@ class ChinhSuaCongViecActivity : AppCompatActivity() {
     private fun anhXaView() {
         edtSuaTenCV = findViewById(R.id.edtSuaTenCV)
         edtSuaMoTaCV = findViewById(R.id.edtSuaMoTaCV)
+        rgMucDoUuTien = findViewById(R.id.rgMucDoUuTien)
+        rbThap = findViewById(R.id.rbThap)
+        rbTrungBinh = findViewById(R.id.rbTrungBinh)
+        rbCao = findViewById(R.id.rbCao)
         btnLuuCV = findViewById(R.id.btnLuuCV)
     }
 
@@ -38,28 +49,40 @@ class ChinhSuaCongViecActivity : AppCompatActivity() {
             intent.getSerializableExtra("DOI_TUONG_CAN_SUA") as? CongViec
         }
 
-        congViecCanSua?.let {
-            edtSuaTenCV.setText(it.tenCongViec)
-            edtSuaMoTaCV.setText(it.moTa)
+        congViecCanSua?.let { cv ->
+            edtSuaTenCV.setText(cv.tenCongViec)
+            edtSuaMoTaCV.setText(cv.moTa)
+
+            // Hiển thị mức độ ưu tiên hiện tại
+            when (cv.mucDoUuTien) {
+                "Thấp" -> rbThap.isChecked = true
+                "Trung bình" -> rbTrungBinh.isChecked = true
+                "Cao" -> rbCao.isChecked = true
+                else -> rbTrungBinh.isChecked = true
+            }
         }
     }
 
     private fun xuLySuKien() {
         btnLuuCV.setOnClickListener {
-            val tenMoi = edtSuaTenCV.text.toString().trim()
+            val tenMoi = edtSuaTenCV.text.toString()
             val moTaMoi = edtSuaMoTaCV.text.toString().trim()
 
-            if (tenMoi.isEmpty()) {
-                edtSuaTenCV.error = "Tên không được để trống!"
+            if (tenMoi.isBlank()) {
+                edtSuaTenCV.error = "Tên công việc không hợp lệ!"
                 edtSuaTenCV.requestFocus()
+                Toast.makeText(this, "Tên không được để trống hoặc chỉ chứa khoảng trắng", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Cập nhật lại thuộc tính của đối tượng CongViec
+            val idDuocChon = rgMucDoUuTien.checkedRadioButtonId
+            val mucDoUuTienMoi = findViewById<RadioButton>(idDuocChon)?.text.toString()
+
             val congViecCapNhat = CongViec(
-                tenCongViec = tenMoi,
+                tenCongViec = tenMoi.trim(),
                 moTa = moTaMoi,
-                trangThai = "Đã chỉnh sửa"
+                trangThai = congViecCanSua?.trangThai ?: "Đã chỉnh sửa",
+                mucDoUuTien = mucDoUuTienMoi
             )
 
             val intentKetQua = Intent().apply {

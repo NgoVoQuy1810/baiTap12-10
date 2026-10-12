@@ -1,11 +1,10 @@
 package com.example.bt12_10
 
+import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.view.Menu
-import android.widget.TextView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
@@ -34,7 +33,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun xuLySuKien() {
-        // Nhấn nút Tạo CV -> Chuyển sang ChiTietCongViecActivity và gửi dữ liệu qua Intent
         btnTaoCV.setOnClickListener {
             val ten = edtTenCV.text.toString().trim()
             val moTa = edtMoTaCV.text.toString().trim()
@@ -43,15 +41,21 @@ class MainActivity : AppCompatActivity() {
                 edtTenCV.error = "Vui lòng nhập tên công việc!"
                 edtTenCV.requestFocus()
             } else {
+                // Tạo đối tượng CongViec từ class
+                val congViecMoi = CongViec(
+                    tenCongViec = ten,
+                    moTa = if (moTa.isEmpty()) "Không có mô tả" else moTa,
+                    trangThai = "Mới tạo"
+                )
+
+                // Truyền toàn bộ object CongViec qua Intent
                 val yDinh = Intent(this, ChiTietCongViecActivity::class.java).apply {
-                    putExtra("TEN_CV", ten)
-                    putExtra("MO_TA_CV", moTa)
+                    putExtra("DOI_TUONG_CONG_VIEC", congViecMoi)
                 }
                 startActivity(yDinh)
             }
         }
 
-        // Nút Xem danh sách
         btnXemDS.setOnClickListener {
             Toast.makeText(this, "Xem danh sách công việc", Toast.LENGTH_SHORT).show()
         }

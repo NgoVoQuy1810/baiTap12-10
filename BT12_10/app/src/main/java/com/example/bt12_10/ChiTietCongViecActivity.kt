@@ -2,6 +2,7 @@ package com.example.bt12_10
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -16,19 +17,27 @@ class ChiTietCongViecActivity : AppCompatActivity() {
     private lateinit var btnChinhSuaCV: Button
     private lateinit var btnQuayLai: Button
 
-    // Đăng ký Activity Result API để nhận dữ liệu trả về từ màn hình sửa
+    // Biến lưu trữ đối tượng công việc hiện tại
+    private var congViecHienTai: CongViec? = null
+
+    // Đăng ký nhận đối tượng CongViec trả về sau khi sửa
     private val trinhNhanKetQua = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { ketQua ->
         if (ketQua.resultCode == Activity.RESULT_OK) {
             val duLieuTraVe = ketQua.data
-            val tenMoi = duLieuTraVe?.getStringExtra("TEN_CV_MOI")
-            val moTaMoi = duLieuTraVe?.getStringExtra("MO_TA_CV_MOI")
+            val congViecDaSua = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                duLieuTraVe?.getSerializableExtra("DOI_TUONG_CONG_VIEC_MOI", CongViec::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                duLieuTraVe?.getSerializableExtra("DOI_TUONG_CONG_VIEC_MOI") as? CongViec
+            }
 
-            // Cập nhật lại giao diện
-            tvHienThiTen.text = tenMoi
-            tvHienThiMoTa.text = if (moTaMoi.isNullOrEmpty()) "Không có mô tả" else moTaMoi
-            Toast.makeText(this, "Đã cập nhật công việc!", Toast.LENGTH_SHORT).show()
+            congViecDaSua?.let {
+                congViecHienTai = it
+                capNhatGiaoDien()
+                Toast.makeText(this, "Đã cập nhật công việc!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -49,24 +58,34 @@ class ChiTietCongViecActivity : AppCompatActivity() {
     }
 
     private fun nhanDuLieuBanDau() {
-        val ten = intent.getStringExtra("TEN_CV")
-        val moTa = intent.getStringExtra("MO_TA_CV")
+        congViecHienTai = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra("DOI_TUONG_CONG_VIEC", CongViec::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getSerializableExtra("DOI_TUONG_CONG_VIEC") as? CongViec
+        }
 
-        tvHienThiTen.text = ten
-        tvHienThiMoTa.text = if (moTa.isNullOrEmpty()) "Không có mô tả" else moTa
+        capNhatGiaoDien()
+    }
+
+    private fun capNhatGiaoDien() {
+        congViecHienTai?.let {
+            tvHienThiTen.text = it.tenCongViec
+            // Hiển thị kết hợp mô tả và trạng thái bằng thuộc tính hoặc hàm của class
+            tvHienThiMoTa.text = "Mô tả: ${it.moTa}\nTrạng thái: ${it.trangThai}"
+        }
     }
 
     private fun xuLySuKien() {
-        // Nút Chỉnh sửa: mở màn hình chỉnh sửa qua trinhNhanKetQua
         btnChinhSuaCV.setOnClickListener {
-            val yDinh = Intent(this, ChinhSuaCongViecActivity::class.java).apply {
-                putExtra("TEN_CV_CU", tvHienThiTen.text.toString())
-                putExtra("MO_TA_CV_CU", tvHienThiMoTa.text.toString())
+            congViecHienTai?.let { cv ->
+                val yDinh = Intent(this, ChinhSuaCongViecActivity::class.java).apply {
+                    putExtra("DOI_TUONG_CAN_SUA", cv)
+                }
+                trinhNhanKetQua.launch(yDinh)
             }
-            trinhNhanKetQua.launch(yDinh)
         }
 
-        // Nút Quay lại
         btnQuayLai.setOnClickListener {
             finish()
         }

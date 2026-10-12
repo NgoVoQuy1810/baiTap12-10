@@ -2,6 +2,7 @@ package com.example.bt12_10
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -12,6 +13,7 @@ class ChinhSuaCongViecActivity : AppCompatActivity() {
     private lateinit var edtSuaTenCV: EditText
     private lateinit var edtSuaMoTaCV: EditText
     private lateinit var btnLuuCV: Button
+    private var congViecCanSua: CongViec? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,11 +31,17 @@ class ChinhSuaCongViecActivity : AppCompatActivity() {
     }
 
     private fun nhanDuLieuCu() {
-        val tenCu = intent.getStringExtra("TEN_CV_CU")
-        val moTaCu = intent.getStringExtra("MO_TA_CV_CU")
+        congViecCanSua = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra("DOI_TUONG_CAN_SUA", CongViec::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getSerializableExtra("DOI_TUONG_CAN_SUA") as? CongViec
+        }
 
-        edtSuaTenCV.setText(tenCu)
-        edtSuaMoTaCV.setText(moTaCu)
+        congViecCanSua?.let {
+            edtSuaTenCV.setText(it.tenCongViec)
+            edtSuaMoTaCV.setText(it.moTa)
+        }
     }
 
     private fun xuLySuKien() {
@@ -47,13 +55,18 @@ class ChinhSuaCongViecActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Đóng gói dữ liệu trả về cho màn hình gọi
+            // Cập nhật lại thuộc tính của đối tượng CongViec
+            val congViecCapNhat = CongViec(
+                tenCongViec = tenMoi,
+                moTa = moTaMoi,
+                trangThai = "Đã chỉnh sửa"
+            )
+
             val intentKetQua = Intent().apply {
-                putExtra("TEN_CV_MOI", tenMoi)
-                putExtra("MO_TA_CV_MOI", moTaMoi)
+                putExtra("DOI_TUONG_CONG_VIEC_MOI", congViecCapNhat)
             }
             setResult(Activity.RESULT_OK, intentKetQua)
-            finish() // Đóng Activity
+            finish()
         }
     }
 }

@@ -8,7 +8,6 @@
     android:padding="20dp"
     tools:context=".ChiTietCongViecActivity">
 
-    <!-- Tiêu đề màn hình chi tiết -->
     <TextView
         android:id="@+id/tvTieuDeChiTiet"
         android:layout_width="wrap_content"
@@ -21,7 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Nhãn Tên công việc -->
     <TextView
         android:id="@+id/tvNhanTen"
         android:layout_width="wrap_content"
@@ -33,7 +31,6 @@
         app:layout_constraintTop_toBottomOf="@id/tvTieuDeChiTiet"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Text hiển thị tên công việc nhận được -->
     <TextView
         android:id="@+id/tvHienThiTen"
         android:layout_width="0dp"
@@ -46,7 +43,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Nhãn Mô tả -->
     <TextView
         android:id="@+id/tvNhanMoTa"
         android:layout_width="wrap_content"
@@ -58,7 +54,6 @@
         app:layout_constraintTop_toBottomOf="@id/tvHienThiTen"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Text hiển thị mô tả nhận được -->
     <TextView
         android:id="@+id/tvHienThiMoTa"
         android:layout_width="0dp"
@@ -71,14 +66,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Nút quay lại màn hình chính -->
+    <!-- Nút Chỉnh sửa mới thêm -->
     <Button
-        android:id="@+id/btnQuayLai"
+        android:id="@+id/btnChinhSuaCV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Quay lại"
+        android:text="Chỉnh sửa"
         app:layout_constraintTop_toBottomOf="@id/tvHienThiMoTa"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Nút Quay lại -->
+    <Button
+        android:id="@+id/btnQuayLai"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Quay lại"
+        app:layout_constraintTop_toBottomOf="@id/btnChinhSuaCV"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

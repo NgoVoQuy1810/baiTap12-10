@@ -13,7 +13,7 @@
         android:id="@+id/tvThongTinSV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Họ tên: Nguyễn Văn A\nMSV: 20210001\nLớp HP: Lập trình Di động"
+        android:text="Họ tên: Ngô Võ Quý\nMSV: 2126TLTTD01"
         android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="#1976D2"

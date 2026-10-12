@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    tools:context=".ChiTietCongViecActivity">
+
+    <!-- Tiêu đề màn hình chi tiết -->
+    <TextView
+        android:id="@+id/tvTieuDeChiTiet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CHI TIẾT CÔNG VIỆC"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#1976D2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Nhãn Tên công việc -->
+    <TextView
+        android:id="@+id/tvNhanTen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Tên công việc:"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/tvTieuDeChiTiet"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Text hiển thị tên công việc nhận được -->
+    <TextView
+        android:id="@+id/tvHienThiTen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:background="#F5F5F5"
+        app:layout_constraintTop_toBottomOf="@id/tvNhanTen"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Nhãn Mô tả -->
+    <TextView
+        android:id="@+id/tvNhanMoTa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Mô tả chi tiết:"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/tvHienThiTen"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Text hiển thị mô tả nhận được -->
+    <TextView
+        android:id="@+id/tvHienThiMoTa"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:background="#F5F5F5"
+        app:layout_constraintTop_toBottomOf="@id/tvNhanMoTa"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Nút quay lại màn hình chính -->
+    <Button
+        android:id="@+id/btnQuayLai"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Quay lại"
+        app:layout_constraintTop_toBottomOf="@id/tvHienThiMoTa"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

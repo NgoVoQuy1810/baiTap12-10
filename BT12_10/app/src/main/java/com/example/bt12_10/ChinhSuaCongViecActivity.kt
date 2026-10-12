@@ -17,7 +17,7 @@ class ChinhSuaCongViecActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_chinh_sua_cong_viec)
+        setContentView(R.layout.acticity_chinh_sua_cong_viec)
 
         anhXaView()
         nhanDuLieuCu()

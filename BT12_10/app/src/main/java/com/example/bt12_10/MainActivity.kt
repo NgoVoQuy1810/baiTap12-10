@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
             if (ten.isEmpty()) {
                 edtTenCV.error = "Vui lòng nhập tên công việc!"
                 edtTenCV.requestFocus()
+                return@setOnClickListener
             } else {
                 // Tạo đối tượng CongViec từ class
                 val congViecMoi = CongViec(

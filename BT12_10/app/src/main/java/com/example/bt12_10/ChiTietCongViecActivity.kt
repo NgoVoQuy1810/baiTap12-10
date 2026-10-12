@@ -16,11 +16,10 @@ class ChiTietCongViecActivity : AppCompatActivity() {
     private lateinit var tvHienThiMoTa: TextView
     private lateinit var btnChinhSuaCV: Button
     private lateinit var btnQuayLai: Button
+    private lateinit var btnHoanThanh: Button // Bổ sung nút
 
-    // Biến lưu trữ đối tượng công việc hiện tại
     private var congViecHienTai: CongViec? = null
 
-    // Đăng ký nhận đối tượng CongViec trả về sau khi sửa
     private val trinhNhanKetQua = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { ketQua ->
@@ -36,7 +35,7 @@ class ChiTietCongViecActivity : AppCompatActivity() {
             congViecDaSua?.let {
                 congViecHienTai = it
                 capNhatGiaoDien()
-                Toast.makeText(this, "Đã cập nhật công việc!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Đã cập nhật thông tin!", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -55,6 +54,7 @@ class ChiTietCongViecActivity : AppCompatActivity() {
         tvHienThiMoTa = findViewById(R.id.tvHienThiMoTa)
         btnChinhSuaCV = findViewById(R.id.btnChinhSuaCV)
         btnQuayLai = findViewById(R.id.btnQuayLai)
+        btnHoanThanh = findViewById(R.id.btnHoanThanh)
     }
 
     private fun nhanDuLieuBanDau() {
@@ -64,15 +64,25 @@ class ChiTietCongViecActivity : AppCompatActivity() {
             @Suppress("DEPRECATION")
             intent.getSerializableExtra("DOI_TUONG_CONG_VIEC") as? CongViec
         }
-
         capNhatGiaoDien()
     }
 
     private fun capNhatGiaoDien() {
-        congViecHienTai?.let {
-            tvHienThiTen.text = it.tenCongViec
-            // Hiển thị kết hợp mô tả và trạng thái bằng thuộc tính hoặc hàm của class
-            tvHienThiMoTa.text = "Mô tả: ${it.moTa}\nTrạng thái: ${it.trangThai}"
+        congViecHienTai?.let { cv ->
+            tvHienThiTen.text = cv.tenCongViec
+            // Dùng hàm layThongTinCongViec() từ Câu 4 để hiển thị
+            tvHienThiMoTa.text = cv.layThongTinCongViec()
+
+            // Cập nhật trạng thái hiển thị của nút Hoàn thành
+            if (cv.trangThai == "Đã hoàn thành") {
+                btnHoanThanh.isEnabled = false
+                btnHoanThanh.text = "Công việc đã hoàn thành"
+                btnChinhSuaCV.isEnabled = false // Không cho sửa nếu đã xong
+            } else {
+                btnHoanThanh.isEnabled = true
+                btnHoanThanh.text = "Đánh dấu hoàn thành"
+                btnChinhSuaCV.isEnabled = true
+            }
         }
     }
 
@@ -84,6 +94,13 @@ class ChiTietCongViecActivity : AppCompatActivity() {
                 }
                 trinhNhanKetQua.launch(yDinh)
             }
+        }
+
+        // Xử lý khi bấm đánh dấu hoàn thành
+        btnHoanThanh.setOnClickListener {
+            congViecHienTai?.trangThai = "Đã hoàn thành"
+            capNhatGiaoDien()
+            Toast.makeText(this, "Đã đánh dấu hoàn thành!", Toast.LENGTH_SHORT).show()
         }
 
         btnQuayLai.setOnClickListener {
